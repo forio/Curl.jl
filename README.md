@@ -4,6 +4,7 @@ A Julia client HTTP library
 
 ### Examples
 
+  ```julia
   julia> using Curl
 
   julia> using JSON
@@ -13,6 +14,7 @@ A Julia client HTTP library
 
   julia> JSON.parse(Curl.get("http://jsonip.com"))["ip"]
   "24.4.140.175"
+  ```
 
 ### Requirements
 
