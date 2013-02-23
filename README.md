@@ -27,8 +27,8 @@ requests to HTTP web servers.
   julia> Curl.head("http://requestb.in/181n1gk1")
   ""
 
-  julia> Curl.get("http://nytimes.com")[1:95]
-  "<!DOCTYPE html>\n<!--[if IE]><![endif]--> \n<html lang=\"en\">\n<head>\n<title>The New York Times - B"
+  julia> Curl.get("http://nytimes.com")[1:92]
+  "<!DOCTYPE html>\n<!--[if IE]><![endif]--> \n<html lang=\"en\">\n<head>\n<title>The New York Times "
 
   ```
 
