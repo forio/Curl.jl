@@ -143,7 +143,6 @@ end
 function head(url)
   @run_with_block begin 
     ccall((:curl_easy_setopt, "libcurl"), Ptr{Uint8}, (Ptr{Uint8}, Int, Int), curl, CURLOPT_NOBODY, 1)
-    # ccall((:curl_easy_setopt, "libcurl"), Ptr{Uint8}, (Ptr{Uint8}, Int, Ptr{Uint8}), curl, CURLOPT_CUSTOMREQUEST, "HEAD".data)
   end
   resp_data
 end
