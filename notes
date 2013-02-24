@@ -1,0 +1,5 @@
+# to file
+# fh = ccall( (:fopen, "libc"), Ptr{Uint8}, (Ptr{Uint8}, Ptr{Uint8}), "out".data, "wb".data)
+# ccall( (:curl_easy_setopt, "libcurl"), Ptr{Uint8}, (Ptr{Uint8}, Int, Int), curl, CURLOPT_WRITEFUNCTION, C_NULL)
+# ccall( (:curl_easy_setopt, "libcurl"), Ptr{Uint8}, (Ptr{Uint8}, Int, Ptr{Uint8}), curl, CURLOPT_FILE, fh)
+# ccall( (:fclose, "libc"), Ptr{Uint8}, (Ptr{Uint8},), fh)
