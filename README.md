@@ -10,17 +10,14 @@ A little Julia client HTTP library. Curl.jl supports basic HTTP method usage
 
   julia> using JSON
 
-  julia> r = Curl.get("http://jsonip.com")
-  Response("{\"ip\":\"24.4.140.175\",\"about\":\"/about\"}",["HTTP/1.1 200 OK", "Server: nginx/1.2.6", "Date: Sun, 24 Feb 2013 02:36:34 GMT"  …  "Access-Control-Allow-Origin: *", "Access-Control-Allow-Methods: GET"])
-
-  julia> r.text
+  julia> Curl.get("http://jsonip.com").text
   "{\"ip\":\"24.4.140.175\",\"about\":\"/about\"}"
 
-  julia> r.headers[1]
+  julia> Curl.get("http://jsonip.com").headers[1]
   9-element String Array:
    "HTTP/1.1 200 OK"                    
    "Server: nginx/1.2.6"                
-   "Date: Sun, 24 Feb 2013 03:24:08 GMT"
+   "Date: Sun, 24 Feb 2013 03:34:17 GMT"
    "Content-Type: application/json"     
    "Transfer-Encoding: chunked"         
    "Connection: keep-alive"             
@@ -37,16 +34,26 @@ A little Julia client HTTP library. Curl.jl supports basic HTTP method usage
   julia> Curl.delete("http://requestb.in/181n1gk1").text
   "ok\n"
 
-  julia> Curl.head("http://requestb.in/181n1gk1")
-  Response([["HTTP/1.1 200 OK", "Content-length: 3", "Content-Type: text/html; charset=utf-8", "Date: Sun, 24 Feb 2013 03:27:20 GMT", "Connection: keep-alive"]],"")
+  julia> Curl.head("http://requestb.in/181n1gk1").text
+  ""
 
   julia> Curl.get("http://nytimes.com").text[1:92]
   "<!DOCTYPE html>\n<!--[if IE]><![endif]--> \n<html lang=\"en\">\n<head>\n<title>The New York Times "
 
-  julia> Curl.get("http://nytimes.com").headers
-  2-element Array{String,1} Array:
-   ["HTTP/1.1 302 Found", "Date: Sun, 24 Feb 2013 03:29:06 GMT", "Server: Apache"  …  "Connection: close", "Content-Type: text/html; charset=iso-8859-1"]
-   ["HTTP/1.1 200 OK", "Date: Sun, 24 Feb 2013 03:29:06 GMT", "Server: Apache"  …  "Connection: close", "Content-Type: text/html; charset=UTF-8"]        
+  julia> Curl.get("http://nytimes.com").headers[2]
+  12-element String Array:
+   "HTTP/1.1 200 OK"                                                                                               
+   "Date: Sun, 24 Feb 2013 03:36:02 GMT"                                                                           
+   "Server: Apache"                                                                                                
+   "expires: Thu, 01 Dec 1994 16:00:00 GMT"                                                                        
+   "cache-control: no-cache"                                                                                       
+   "pragma: no-cache"                                                                                              
+   "Set-Cookie: RMID=007f0100629751298aa2003f; Expires=Mon, 24 Feb 2014 03:36:02 GMT; Path=/; Domain=.nytimes.com;"
+   "Set-cookie: adxcs=-; path=/; domain=.nytimes.com"                                                              
+   "Vary: Host"                                                                                                    
+   "Content-Length: 168147"                                                                                        
+   "Connection: close"                                                                                             
+   "Content-Type: text/html; charset=UTF-8"  
 
   ```
 
