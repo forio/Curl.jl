@@ -3,6 +3,13 @@
 A little Julia client HTTP library. Curl.jl supports basic HTTP method usage
 (GET, POST, DELETE ...) for making requests to HTTP web servers.
 
+### Installation 
+
+* Install Julia
+* From the Julia console `Pkg.init()` if not already done so
+* git clone into ~/.julia
+* Test with `julia> using Curl`
+
 ### Examples
 
   ```julia
