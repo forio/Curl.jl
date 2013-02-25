@@ -7,8 +7,8 @@ A little Julia client HTTP library. Curl.jl supports basic HTTP method usage
 
 * Install Julia
 * From the Julia console `Pkg.init()` if not already done so
-* git clone into ~/.julia
-* Test with `julia> using Curl`
+* git clone into ~/.julia as Curl `cd ~/.julia/; git clone https://github.com/forio/Curl.jl.git Curl`
+* `julia> Pkg.update(); Pkg.add("Curl"); using Curl`
 
 ### Examples
 
