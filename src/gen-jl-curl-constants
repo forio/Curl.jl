@@ -1,5 +1,5 @@
 # Crazy pipeline to create a julia data file that contains
 # the lib curl constant values
 
->curl-constants.jl
-php -r '$arr = get_defined_constants(true); var_dump($arr['curl']);' | grep -v '}' | grep -v array | xargs -n 2 | awk '{ print $1";"$2 }' | tr -d '[];>' | sed 's/int//' | tr -d '()' | sed "s/=/ = /" |  awk '{print length, $0}' | sort -n | awk '{$1=""; print $0 }' | awk  '{gsub("=","=",$0); print;}' | sort | column -t -s"=" | sed 's/\([-0-9]*\)$/= \1/' | sed -e 's/^[ \t]*//' | while read line; do echo "const $line" >> curl-constants.jl ; done; 
+>constants.jl
+php -r '$arr = get_defined_constants(true); var_dump($arr['curl']);' | grep -v '}' | grep -v array | xargs -n 2 | awk '{ print $1";"$2 }' | tr -d '[];>' | sed 's/int//' | tr -d '()' | sed "s/=/ = /" |  awk '{print length, $0}' | sort -n | awk '{$1=""; print $0 }' | awk  '{gsub("=","=",$0); print;}' | sort | column -t -s"=" | sed 's/\([-0-9]*\)$/= \1/' | sed -e 's/^[ \t]*//' | while read line; do echo "const $line" >> constants.jl ; done; 

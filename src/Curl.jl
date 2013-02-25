@@ -113,7 +113,7 @@ function setup_curlopts(curl, url)
 
   ccall( (:curl_easy_setopt, "libcurl"), Ptr{Uint8}, (Ptr{Uint8}, Int, Int), curl, CURLOPT_FOLLOWLOCATION, 1)
 
-  # instruct libcurl to include the headers in the start of the body output
+  # instruct libcurl to not include the headers in the start of the body output
   ccall( (:curl_easy_setopt, "libcurl"), Ptr{Uint8}, (Ptr{Uint8}, Int, Int), curl, CURLOPT_HEADER, 0)
   ccall( (:curl_easy_setopt, "libcurl"), Ptr{Uint8}, (Ptr{Uint8}, Int, Int), curl, CURLOPT_HEADERFUNCTION, c_header_function)
 
