@@ -66,7 +66,8 @@ A little Julia client HTTP library. Curl.jl supports basic HTTP method usage
 
 ### TODO
 
- * Support for PUT
+ * Support for PUT, PATCH
+ * Curl-multi
 
 ### Requirements
 
