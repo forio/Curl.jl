@@ -62,6 +62,18 @@ A little Julia client HTTP library. Curl.jl supports basic HTTP method usage
    "Connection: close"                                                                                             
    "Content-Type: text/html; charset=UTF-8"  
 
+  julia> Curl.options("http://thestar.com.my").headers[1]
+  9-element String Array:
+   "HTTP/1.1 200 OK"                        
+   "Cache-Control: max-age=60"              
+   "Allow: OPTIONS, TRACE, GET, HEAD, POST" 
+   "Content-Length: 0"                      
+   "Server: Microsoft-IIS/7.5"              
+   "Public: OPTIONS, TRACE, GET, HEAD, POST"
+   "X-Powered-By: ARR/2.5"                  
+   "X-Powered-By: ASP.NET"                  
+   "Date: Thu, 28 Feb 2013 01:28:42 GMT"    
+
   ```
 
 ### TODO

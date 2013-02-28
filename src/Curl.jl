@@ -158,7 +158,6 @@ macro run_with_block(expr)
     setup_curlopts(curl, url)
     set_ua(curl)
 
-    # $(esc(expr))
     $expr
 
     response = do_curl(curl)
@@ -167,6 +166,8 @@ macro run_with_block(expr)
 
   end
 end
+
+# Http methods
 
 function head(url)
   response = @run_with_block begin 
@@ -192,6 +193,15 @@ function delete(url)
   response = @run_with_block begin
     # curl_easy_setopt(handle, CURLOPT_CUSTOMREQUEST, "DELETE"); 
     ccall((:curl_easy_setopt, "libcurl"), Ptr{Uint8}, (Ptr{Uint8}, Int, Ptr{Uint8}), curl, CURLOPT_CUSTOMREQUEST, "DELETE".data)
+  end
+  response
+end
+
+function options(url)
+  response = @run_with_block begin
+    # curl_easy_setopt(handle, CURLOPT_CUSTOMREQUEST, "OPTIONS"); 
+    ccall((:curl_easy_setopt, "libcurl"), Ptr{Uint8}, (Ptr{Uint8}, Int, Int), curl, CURLOPT_NOBODY, 1)
+    ccall((:curl_easy_setopt, "libcurl"), Ptr{Uint8}, (Ptr{Uint8}, Int, Ptr{Uint8}), curl, CURLOPT_CUSTOMREQUEST, "OPTIONS".data)
   end
   response
 end
