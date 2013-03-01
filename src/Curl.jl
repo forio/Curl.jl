@@ -1,8 +1,9 @@
-# LibCurl Julia bindings
+# Libcurl Julia bindings
 
 # TODO
 #
 # * PUTs
+# * TRACE
 # * tests
 # * Method abstraction for libcurl ccall's
 
@@ -62,7 +63,7 @@ end
 
 function gen_write_cb(resp_type::Symbol, buf::Ptr{Uint8}, size::Uint32, nmemb::Uint32, userp::Ptr{Void})
 
-  # To test, can call directly as:
+  # To test, can call directly as
   # ccall(c_write_function, (Uint32), (Ptr{Uint32}, Uint32, Uint32, Ptr{Void}), 0x00, 0x00, 0x00, 0x00)
 
   if DEBUG; println("write_function"); end
@@ -86,8 +87,7 @@ function gen_write_cb(resp_type::Symbol, buf::Ptr{Uint8}, size::Uint32, nmemb::U
     println("length of resp data: $(length(raw_response[resp_type]))")
   end
 
-  # just report back that we 
-  # saved what was sent in as input
+  # just report back that we saved what was sent in as input
   return nmemb
 
 end
@@ -100,13 +100,13 @@ function curl_version()
 end
 
 function setup_curl()
-  global raw_response = { :headers => "", :text => "" }
 
   curl_ver = curl_version()
   if DEBUG; println("curl version: $curl_ver"); end
   curl = ccall( (:curl_easy_init, "libcurl"), Ptr{Uint8}, ())
-  curl
+  
 end
+curl = setup_curl()
 
 function setup_curlopts(curl, url)
   iostr = IOString()
@@ -128,7 +128,10 @@ function parse_headers(raw_headers)
 end
 
 function do_curl(curl)
+
+  global raw_response = { :headers => "", :text => "" }
   curl_resp = ccall( (:curl_easy_perform, "libcurl"), Ptr{Uint8}, (Ptr{Uint8},), curl)
+
   global raw_response
   # response values are now ready
   if DEBUG; println("result: $curl_resp"); end
@@ -145,6 +148,7 @@ end
 function cleanup_curl(curl)
   ccall( (:curl_easy_cleanup, "libcurl"), Ptr, (Ptr{Uint8},), curl)
 end
+# finalizer(curl, cleanup_curl)
 
 function set_ua(curl)
   ua_str = "Curl.jl Ver. $version - $(curl_version())"
@@ -154,21 +158,18 @@ end
 macro run_with_block(expr)
   quote
 
-    curl = setup_curl()
     setup_curlopts(curl, url)
     set_ua(curl)
 
     $expr
 
     response = do_curl(curl)
-    cleanup_curl(curl)
     response
 
   end
 end
 
 # Http methods
-
 function head(url)
   response = @run_with_block begin 
     ccall((:curl_easy_setopt, "libcurl"), Ptr{Uint8}, (Ptr{Uint8}, Int, Int), curl, CURLOPT_NOBODY, 1)
@@ -181,29 +182,33 @@ function get(url)
 end
 
 function post(url, params)
-  response = @run_with_block begin
+  @run_with_block begin
     escaped_params = dict_to_query_params(curl, params)
     # curl_easy_setopt(curl, CURLOPT_POSTFIELDS, "name=daniel&project=curl");
     ccall((:curl_easy_setopt, "libcurl"), Ptr{Uint8}, (Ptr{Uint8}, Int, Ptr{Uint8}), curl, CURLOPT_POSTFIELDS, escaped_params.data)
   end
-  response
 end
 
 function delete(url)
-  response = @run_with_block begin
+  @run_with_block begin
     # curl_easy_setopt(handle, CURLOPT_CUSTOMREQUEST, "DELETE"); 
     ccall((:curl_easy_setopt, "libcurl"), Ptr{Uint8}, (Ptr{Uint8}, Int, Ptr{Uint8}), curl, CURLOPT_CUSTOMREQUEST, "DELETE".data)
   end
-  response
 end
 
 function options(url)
-  response = @run_with_block begin
+  @run_with_block begin
     # curl_easy_setopt(handle, CURLOPT_CUSTOMREQUEST, "OPTIONS"); 
     ccall((:curl_easy_setopt, "libcurl"), Ptr{Uint8}, (Ptr{Uint8}, Int, Int), curl, CURLOPT_NOBODY, 1)
     ccall((:curl_easy_setopt, "libcurl"), Ptr{Uint8}, (Ptr{Uint8}, Int, Ptr{Uint8}), curl, CURLOPT_CUSTOMREQUEST, "OPTIONS".data)
   end
-  response
+end
+
+function trace(url)
+  @run_with_block begin
+    # curl_easy_setopt(handle, CURLOPT_CUSTOMREQUEST, "OPTIONS"); 
+    ccall((:curl_easy_setopt, "libcurl"), Ptr{Uint8}, (Ptr{Uint8}, Int, Ptr{Uint8}), curl, CURLOPT_CUSTOMREQUEST, "TRACE".data)
+  end
 end
 
 end
