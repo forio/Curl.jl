@@ -106,7 +106,6 @@ function setup_curl()
   curl = ccall( (:curl_easy_init, "libcurl"), Ptr{Uint8}, ())
   
 end
-curl = setup_curl()
 
 function setup_curlopts(curl, url)
   iostr = IOString()
@@ -157,7 +156,7 @@ end
 
 macro run_with_block(expr)
   quote
-
+    curl = setup_curl()
     setup_curlopts(curl, url)
     set_ua(curl)
 
