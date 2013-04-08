@@ -26,7 +26,7 @@ function read_c_str(c_str::Ptr{Uint8})
   i = 1
   j_str = ""
   while true
-    c = char(parse_int(base(10, unsafe_ref(c_str, i))))
+    c = char(parseint(base(10, unsafe_ref(c_str, i))))
     if c == '\0'
       break
     end
@@ -69,10 +69,10 @@ function gen_write_cb(resp_type::Symbol, buf::Ptr{Uint8}, size::Uint32, nmemb::U
   if DEBUG; println("write_function"); end
 
   # convert size provided in hex to dec
-  num_bytes = parse_int(base(10, nmemb))
+  num_bytes = parseint(base(10, nmemb))
   arr = zeros(Char, num_bytes)
   for i = 1:num_bytes
-    c = char(parse_int(base(10, unsafe_ref(buf, i))))
+    c = char(parseint(base(10, unsafe_ref(buf, i))))
     arr[i] = c
   end
   str_val = join(arr)
