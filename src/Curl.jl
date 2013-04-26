@@ -22,24 +22,9 @@ type Response
   text::String
 end
 
-function read_c_str(c_str::Ptr{Uint8})
-  i = 1
-  j_str = ""
-  while true
-    c = char(parseint(base(10, unsafe_ref(c_str, i))))
-    if c == '\0'
-      break
-    end
-    j_str = string(j_str, c)
-    i += 1
-  end
-    
-  j_str
-end
-
 function escape(curl, str::String)
   p = ccall( (:curl_easy_escape, "libcurl"), Ptr{Uint8}, (Ptr{Uint8}, Ptr{Uint8}, Int), curl, str.data, 0)
-  read_c_str(p)
+  bytestring(p)
 end
 
 function dict_to_query_params(curl, d::Dict)
