@@ -57,7 +57,7 @@ function gen_write_cb(resp_type::Symbol, buf::Ptr{Uint8}, size::Uint32, nmemb::U
   num_bytes = parseint(base(10, nmemb))
   arr = zeros(Char, num_bytes)
   for i = 1:num_bytes
-    c = char(parseint(base(10, unsafe_ref(buf, i))))
+    c = char(parseint(base(10, unsafe_load(buf, i))))
     arr[i] = c
   end
   str_val = join(arr)
