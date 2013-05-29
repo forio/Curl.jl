@@ -1,11 +1,6 @@
 # Libcurl Julia bindings
 
-# TODO
-#
-# * PUTs
-# * TRACE
-# * tests
-# * Method abstraction for libcurl ccall's
+# TODOs: tests, Method abstraction for libcurl ccall's
 
 module Curl
 
@@ -186,6 +181,14 @@ function patch(url, params)
     escaped_params = dict_to_query_params(curl, params)
     ccall((:curl_easy_setopt, "libcurl"), Ptr{Uint8}, (Ptr{Uint8}, Int, Ptr{Uint8}), curl, CURLOPT_POSTFIELDS, escaped_params.data)
     ccall((:curl_easy_setopt, "libcurl"), Ptr{Uint8}, (Ptr{Uint8}, Int, Ptr{Uint8}), curl, CURLOPT_CUSTOMREQUEST, "PATCH".data)
+  end
+end
+
+function put(url, params)
+  @run_with_block begin
+    escaped_params = dict_to_query_params(curl, params)
+    ccall((:curl_easy_setopt, "libcurl"), Ptr{Uint8}, (Ptr{Uint8}, Int, Ptr{Uint8}), curl, CURLOPT_POSTFIELDS, escaped_params.data)
+    ccall((:curl_easy_setopt, "libcurl"), Ptr{Uint8}, (Ptr{Uint8}, Int, Ptr{Uint8}), curl, CURLOPT_CUSTOMREQUEST, "PUT".data)
   end
 end
 
