@@ -73,11 +73,14 @@ A little Julia client HTTP library. Curl.jl supports basic HTTP method usage
    "X-Powered-By: ASP.NET"                  
    "Date: Thu, 28 Feb 2013 01:28:42 GMT"    
 
+  julia> Curl.patch("http://requestb.in/s5sgk7s5", { :arg1 => "var1" }).text
+  ...
+
   ```
 
 ### TODO
 
- * PUT, PATCH, TRACE
+ * PUT, TRACE
  * Curl-multi
  * Promises / callback interface
 
