@@ -173,6 +173,22 @@ function post(url, params)
   end
 end
 
+function post(url, params)
+  @run_with_block begin
+    escaped_params = dict_to_query_params(curl, params)
+    # curl_easy_setopt(curl, CURLOPT_POSTFIELDS, "name=daniel&project=curl");
+    ccall((:curl_easy_setopt, "libcurl"), Ptr{Uint8}, (Ptr{Uint8}, Int, Ptr{Uint8}), curl, CURLOPT_POSTFIELDS, escaped_params.data)
+  end
+end
+
+function patch(url, params)
+  @run_with_block begin
+    escaped_params = dict_to_query_params(curl, params)
+    ccall((:curl_easy_setopt, "libcurl"), Ptr{Uint8}, (Ptr{Uint8}, Int, Ptr{Uint8}), curl, CURLOPT_POSTFIELDS, escaped_params.data)
+    ccall((:curl_easy_setopt, "libcurl"), Ptr{Uint8}, (Ptr{Uint8}, Int, Ptr{Uint8}), curl, CURLOPT_CUSTOMREQUEST, "PATCH".data)
+  end
+end
+
 function delete(url)
   @run_with_block begin
     # curl_easy_setopt(handle, CURLOPT_CUSTOMREQUEST, "DELETE"); 
