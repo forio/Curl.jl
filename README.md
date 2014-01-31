@@ -1,7 +1,8 @@
-# DEPRECATED - THIS LIBRARY IS NO LONGER MAINTAINED AND MAY DISAPPEAR.
+### DEPRECATED - THIS LIBRARY IS NO LONGER MAINTAINED AND MAY DISAPPEAR.
 
-# Please see [Requests.jl](http://github.com/loladiro/Requests.jl) for all your HTTP client needs.
+### Please see [Requests.jl](http://github.com/loladiro/Requests.jl) for all your HTTP client needs.
 
+-------
 
 ### Curl.jl
 
