@@ -4,6 +4,8 @@
 
 module Curl
 
+warn("Curl.jl has been deprecated. Please check out Requests.jl (http://github.com/loladiro/Requests.jl) for all your HTTP client needs.")
+
 include("constants.jl")
 
 const DEBUG = false
@@ -84,7 +86,7 @@ function setup_curl()
   curl_ver = curl_version()
   if DEBUG; println("curl version: $curl_ver"); end
   curl = ccall( (:curl_easy_init, "libcurl"), Ptr{Uint8}, ())
-  
+
 end
 
 function setup_curlopts(curl, url)
@@ -150,7 +152,7 @@ end
 
 # Http methods
 function head(url)
-  response = @run_with_block begin 
+  response = @run_with_block begin
     ccall((:curl_easy_setopt, "libcurl"), Ptr{Uint8}, (Ptr{Uint8}, Int, Int), curl, CURLOPT_NOBODY, 1)
   end
   response
@@ -194,14 +196,14 @@ end
 
 function delete(url)
   @run_with_block begin
-    # curl_easy_setopt(handle, CURLOPT_CUSTOMREQUEST, "DELETE"); 
+    # curl_easy_setopt(handle, CURLOPT_CUSTOMREQUEST, "DELETE");
     ccall((:curl_easy_setopt, "libcurl"), Ptr{Uint8}, (Ptr{Uint8}, Int, Ptr{Uint8}), curl, CURLOPT_CUSTOMREQUEST, "DELETE".data)
   end
 end
 
 function options(url)
   @run_with_block begin
-    # curl_easy_setopt(handle, CURLOPT_CUSTOMREQUEST, "OPTIONS"); 
+    # curl_easy_setopt(handle, CURLOPT_CUSTOMREQUEST, "OPTIONS");
     ccall((:curl_easy_setopt, "libcurl"), Ptr{Uint8}, (Ptr{Uint8}, Int, Int), curl, CURLOPT_NOBODY, 1)
     ccall((:curl_easy_setopt, "libcurl"), Ptr{Uint8}, (Ptr{Uint8}, Int, Ptr{Uint8}), curl, CURLOPT_CUSTOMREQUEST, "OPTIONS".data)
   end
@@ -209,7 +211,7 @@ end
 
 function trace(url)
   @run_with_block begin
-    # curl_easy_setopt(handle, CURLOPT_CUSTOMREQUEST, "OPTIONS"); 
+    # curl_easy_setopt(handle, CURLOPT_CUSTOMREQUEST, "OPTIONS");
     ccall((:curl_easy_setopt, "libcurl"), Ptr{Uint8}, (Ptr{Uint8}, Int, Ptr{Uint8}), curl, CURLOPT_CUSTOMREQUEST, "TRACE".data)
   end
 end
