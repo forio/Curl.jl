@@ -1,6 +1,6 @@
-### DEPRECATED - THIS LIBRARY IS NO LONGER MAINTAINED AND MAY DISAPPEAR.
+### DEPRECATED - THIS LIBRARY IS NO LONGER MAINTAINED.
 
-### Please see [Requests.jl](http://github.com/loladiro/Requests.jl) for all your HTTP client needs.
+### Please see [Requests.jl](https://github.com/JuliaWeb/Requests.jl) and [LibCURL.jl](https://github.com/JuliaWeb/LibCURL.jl) for all your HTTP client needs.
 
 -------
 
